@@ -19,23 +19,6 @@
 using std::cout;
 using std::endl;
 
-typedef union
-{
-	__m128i 			int128;
-	
-	unsigned char		m128_u8[16];
-	signed char			m128_i8[16];
-
-	unsigned short		m128_u16[8];
-	signed short		m128_i16[8];
-
-	unsigned int		m128_u32[4];
-	signed int		m128_i32[4];
-
-	unsigned long	m128_u64[2];
-	signed long	m128_i64[2];
-} intVec;
-
 int main()
 {
     timeval startTime, endTime;
