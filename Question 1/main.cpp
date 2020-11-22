@@ -3,7 +3,6 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include <sys/time.h>
-//#include "ipp.h"
 #include "x86intrin.h"
 
 using namespace cv;
@@ -13,7 +12,6 @@ int main()
 {
 	struct timeval start1, end1;
 	struct timeval start2, end2;
-	//Ipp64u time1, time2;
 
 	cv::Mat img1 = cv::imread("CA03__Q1__Image__01.png", IMREAD_GRAYSCALE);
 	cv::Mat img2 = cv::imread("CA03__Q1__Image__02.png", IMREAD_GRAYSCALE);
@@ -41,16 +39,10 @@ int main()
 			if (diff < 0)
 				diff = -diff;
 			*(out_image + index) = diff;
-			//cout << "a" << diff <<" b" << *(image1 + row * NCOLS + col) - *(image2 + row * NCOLS + col) << endl;
-			/*if (diff >= 0)
-				*(out_image + row * NCOLS + col) = diff;
-			else
-				*(out_image + row * NCOLS + col) = -diff;*/
 		}
 	gettimeofday(&end1, NULL);
 	long seconds1 = (end1.tv_sec - start1.tv_sec);
 	long micros1 = ((seconds1 * 1000000) + end1.tv_usec) - (start1.tv_usec);
-	//time1 = end - start;
 
 	__m128i *pSrc1;
 	__m128i *pSrc2;
@@ -76,7 +68,6 @@ int main()
 	gettimeofday(&end2, NULL);
 	long seconds2 = (end2.tv_sec - start2.tv_sec);
 	long micros2 = ((seconds2 * 1000000) + end2.tv_usec) - (start2.tv_usec);
-	//time2 = end - start;
 
 	float speedup = (float) (seconds1*1000000 + micros1) / (float) (seconds2*1000000 + micros2);
 
@@ -89,8 +80,6 @@ int main()
 	cv::namedWindow( "Parallel output", cv::WINDOW_AUTOSIZE ); 
 	cv::imshow( "Parallel output", out_img2 ); 				                       					
 
-	//printf ("Serial Run time = %d \n", (Ipp32s) time1);
-	//printf ("Parallel Run time = %d \n", (Ipp32s) time2);
 	printf("Serial Run time = %ld seconds and %ld micro seconds\n\n",seconds1, micros1);
 	printf("Parallel Run time = %ld seconds and %ld micro seconds\n\n",seconds2, micros2);
 	printf ("Speedup = %4.2f\n", speedup);
